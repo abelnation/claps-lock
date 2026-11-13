@@ -1,0 +1,281 @@
+{
+  "title": "Claps Lock",
+  "rules": [
+    {
+      "description": "Claps Lock: double-tap Caps Lock to type IN 👏 ALL 👏 CAPS 👏 WITH 👏 CLAPS",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "claps_mode",
+              "value": 1
+            }
+          ],
+          "to": [
+            {
+              "key_code": "caps_lock"
+            },
+            {
+              "set_variable": {
+                "name": "claps_caps",
+                "value": 0
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_mode",
+                "value": 0
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_tap",
+                "value": 0
+              }
+            },
+            {
+              "set_notification_message": {
+                "id": "claps_lock",
+                "text": ""
+              }
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "claps_tap",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "claps_caps",
+              "value": 1
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "claps_mode",
+                "value": 1
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_tap",
+                "value": 0
+              }
+            },
+            {
+              "set_notification_message": {
+                "id": "claps_lock",
+                "text": "👏 CLAPS LOCK 👏"
+              }
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "claps_tap",
+              "value": 1
+            },
+            {
+              "type": "variable_if",
+              "name": "claps_caps",
+              "value": 0
+            }
+          ],
+          "to": [
+            {
+              "key_code": "caps_lock"
+            },
+            {
+              "set_variable": {
+                "name": "claps_caps",
+                "value": 1
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_mode",
+                "value": 1
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_tap",
+                "value": 0
+              }
+            },
+            {
+              "set_notification_message": {
+                "id": "claps_lock",
+                "text": "👏 CLAPS LOCK 👏"
+              }
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "claps_caps",
+              "value": 0
+            }
+          ],
+          "to": [
+            {
+              "key_code": "caps_lock"
+            },
+            {
+              "set_variable": {
+                "name": "claps_caps",
+                "value": 1
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_tap",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "claps_tap",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "claps_tap",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 400
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "caps_lock"
+            },
+            {
+              "set_variable": {
+                "name": "claps_caps",
+                "value": 0
+              }
+            },
+            {
+              "set_variable": {
+                "name": "claps_tap",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "claps_tap",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "claps_tap",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_delayed_action_delay_milliseconds": 400
+          }
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "caps_lock",
+                "shift"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "claps_mode",
+              "value": 1
+            }
+          ],
+          "to": [
+            {
+              "shell_command": "\"$HOME/.local/bin/clapstype\""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
