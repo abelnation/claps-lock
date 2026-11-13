@@ -1,0 +1,36 @@
+;; Claps Lock for kanata (Windows, macOS, Linux).
+;;
+;; Double-tap Caps Lock to enter "claps lock" mode:
+;;   * Caps Lock stays on, so letters are upper case.
+;;   * Each space becomes " 👏 ".
+;; Tap Caps Lock once to leave the mode.
+;;
+;; Run: kanata --cfg claps_lock.kbd
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps spc
+)
+
+(defalias
+  ;; Tap 1 toggles Caps Lock as normal.
+  ;; Tap 2 inside 400 ms switches to the claps layer and leaves Caps Lock on.
+  capsdt (tap-dance-eager 400 (caps (layer-switch claps)))
+
+  ;; In the claps layer, one tap turns Caps Lock off and goes back to base.
+  capsexit (multi caps (layer-switch base))
+
+  ;; macro keeps the order: space, emoji, space.
+  clap (macro spc 🔣👏 spc)
+)
+
+(deflayer base
+  @capsdt spc
+)
+
+(deflayer claps
+  @capsexit @clap
+)
